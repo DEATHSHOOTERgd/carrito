@@ -12,9 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<ILogin, LoginService>();
-builder.Services.AddScoped<ILogin, LoginService>();
-builder.Services.AddScoped<ILogin, LoginService>();
-builder.Services.AddScoped<ILogin, LoginService>();
+builder.Services.AddScoped<IProducto, ProductoService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -48,7 +46,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = "localhost",
         ValidAudience = "localhost",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetConnectionString("JWTSecretKey")))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSecretKey"]))
     };
 });
 

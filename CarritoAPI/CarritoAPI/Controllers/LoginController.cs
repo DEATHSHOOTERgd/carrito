@@ -24,7 +24,7 @@ namespace CarritoAPI.Controllers
         {
             try
             {
-                var usuario = await iLogin.Login(loginModel.Correo, loginModel.Password);
+                var usuario = await iLogin.Login(loginModel.Email, loginModel.Password);
                 return Ok(usuario);
             }catch (Exception ex)
             {

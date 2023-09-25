@@ -33,6 +33,12 @@ namespace Datos
 
                 context.SaveChanges();
             }
+            if (!context.Usuarios.Any())
+            {
+                context.Usuarios.Add(new Usuario { NombreUsuario = "Giampaolo", Email = "giampaolo.delgadoo@gmail.com", Password = BCrypt.Net.BCrypt.HashPassword("password") });
+
+                context.SaveChanges();
+            }
         }
     }
 }

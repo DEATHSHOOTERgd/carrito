@@ -1,5 +1,6 @@
 ﻿using CarritoAPI.Interfaces;
 using CarritoAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarritoAPI.Controllers
@@ -8,14 +9,35 @@ namespace CarritoAPI.Controllers
     [Route("[controller]")]
     public class ProductoController : ControllerBase
     {
-        [HttpGet("{id}")]
+        private readonly IProducto iProducto;
+        public ProductoController(IProducto _iProducto)
+        {
+            this.iProducto = _iProducto;
+        }
+
+        [Authorize]
+        [HttpGet("Categoria/{categoriaId}")]
         public async Task<ActionResult<UsuarioModel>> GetProductos(int categoriaId)
         {
             try
             {
-                //var usuario = await iLogin.Login(loginModel.Correo, loginModel.Password);
-                //return Ok(usuario);
-                return null;
+                var productos = await iProducto.GetProductos(categoriaId);
+                return Ok(productos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpGet("Producto/{ProductoId}")]
+        public async Task<ActionResult<UsuarioModel>> GetProducto(int productoId)
+        {
+            try
+            {
+                var producto = await iProducto.GetProductos(productoId);
+                return Ok(producto);
             }
             catch (Exception ex)
             {

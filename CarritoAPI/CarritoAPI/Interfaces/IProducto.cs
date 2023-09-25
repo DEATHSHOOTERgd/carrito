@@ -4,7 +4,8 @@ namespace CarritoAPI.Interfaces
 {
     public interface IProducto
     {
-        public Task<ProductoModel> GetProductos(int categoria);
-        
+        public Task<List<ProductoModel>> GetProductos(int categoriaId);
+        public Task<ProductoModel> GetProducto(int productoId);
+
     }
 }

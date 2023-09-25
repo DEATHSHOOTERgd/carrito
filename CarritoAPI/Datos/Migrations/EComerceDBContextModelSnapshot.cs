@@ -121,6 +121,87 @@ namespace Datos.Migrations
                     b.ToTable("Categorias");
                 });
 
+            modelBuilder.Entity("Datos.Plan", b =>
+                {
+                    b.Property<int>("PlanID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanID"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)")
+                        .HasComment("Puede ser 'A' para activo o 'I' para inactivo.");
+
+                    b.Property<DateTime?>("FechaActualiza")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Frecuencia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)")
+                        .HasComment("Puede ser 'M' mensual, 'B' bimensual o 'A' anual");
+
+                    b.Property<string>("Icono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Valor")
+                        .HasColumnType("float");
+
+                    b.HasKey("PlanID");
+
+                    b.ToTable("Planes");
+                });
+
+            modelBuilder.Entity("Datos.PlanUsuario", b =>
+                {
+                    b.Property<int>("PlanUsuarioID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanUsuarioID"));
+
+                    b.Property<double>("Consumido")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(1)")
+                        .HasComment("Puede ser 'A' para activo o 'I' para inactivo.");
+
+                    b.Property<DateTime?>("FechaActualiza")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PlanID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PlanUsuarioID");
+
+                    b.HasIndex("PlanID");
+
+                    b.HasIndex("UsuarioID");
+
+                    b.ToTable("PlanUsuario");
+                });
+
             modelBuilder.Entity("Datos.Producto", b =>
                 {
                     b.Property<int>("ProductoID")
@@ -229,6 +310,25 @@ namespace Datos.Migrations
                     b.Navigation("Carrito");
 
                     b.Navigation("Producto");
+                });
+
+            modelBuilder.Entity("Datos.PlanUsuario", b =>
+                {
+                    b.HasOne("Datos.Plan", "Plan")
+                        .WithMany()
+                        .HasForeignKey("PlanID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Datos.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Datos.Producto", b =>

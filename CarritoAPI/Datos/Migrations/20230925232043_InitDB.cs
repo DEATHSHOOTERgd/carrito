@@ -28,6 +28,26 @@ namespace Datos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Planes",
+                columns: table => new
+                {
+                    PlanID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icono = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Frecuencia = table.Column<string>(type: "nvarchar(1)", nullable: false, comment: "Puede ser 'M' mensual, 'B' bimensual o 'A' anual"),
+                    Valor = table.Column<double>(type: "float", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaActualiza = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(1)", nullable: false, comment: "Puede ser 'A' para activo o 'I' para inactivo.")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Planes", x => x.PlanID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
                 {
@@ -95,6 +115,36 @@ namespace Datos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlanUsuario",
+                columns: table => new
+                {
+                    PlanUsuarioID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PlanID = table.Column<int>(type: "int", nullable: false),
+                    UsuarioID = table.Column<int>(type: "int", nullable: false),
+                    Consumido = table.Column<double>(type: "float", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaActualiza = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(1)", nullable: false, comment: "Puede ser 'A' para activo o 'I' para inactivo.")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanUsuario", x => x.PlanUsuarioID);
+                    table.ForeignKey(
+                        name: "FK_PlanUsuario_Planes_PlanID",
+                        column: x => x.PlanID,
+                        principalTable: "Planes",
+                        principalColumn: "PlanID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlanUsuario_Usuarios_UsuarioID",
+                        column: x => x.UsuarioID,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CarritoDetalles",
                 columns: table => new
                 {
@@ -140,6 +190,16 @@ namespace Datos.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlanUsuario_PlanID",
+                table: "PlanUsuario",
+                column: "PlanID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlanUsuario_UsuarioID",
+                table: "PlanUsuario",
+                column: "UsuarioID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Productos_CategoriaID",
                 table: "Productos",
                 column: "CategoriaID");
@@ -152,10 +212,16 @@ namespace Datos.Migrations
                 name: "CarritoDetalles");
 
             migrationBuilder.DropTable(
+                name: "PlanUsuario");
+
+            migrationBuilder.DropTable(
                 name: "Carritos");
 
             migrationBuilder.DropTable(
                 name: "Productos");
+
+            migrationBuilder.DropTable(
+                name: "Planes");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

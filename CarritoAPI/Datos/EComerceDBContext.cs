@@ -12,6 +12,8 @@ namespace Datos
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Plan> Planes { get; set; }
+        public DbSet<PlanUsuario> PlanUsuario { get; set; }
 
     }
 }

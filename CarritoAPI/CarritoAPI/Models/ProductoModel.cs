@@ -13,6 +13,6 @@ namespace CarritoAPI.Models
         public char GravaIVA { get; set; }
         public string PorcIVA { get; set; }
         public string UrlImagen { get; set; }
-        public string Categoria { get; set; }
+        public int Categoria { get; set; }
     }
 }
